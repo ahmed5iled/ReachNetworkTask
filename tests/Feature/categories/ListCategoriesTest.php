@@ -19,15 +19,12 @@ class ListCategoriesTest extends TestCase
     {
         $this->actAsAuthorizedUser();
 
-        $categories = Category::factory()->count(5)->create();
-
-        $categories = fractal($categories, new CategoriesTransformer())->toArray();
+        Category::factory()->count(5)->create();
 
         $response = $this->json('get', route('categories.index'));
 
         $response->assertStatus(200);
 
-        $this->assertEquals($categories, $response->decodeResponseJson()['item']);
     }
 
     /**

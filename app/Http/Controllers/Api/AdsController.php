@@ -28,7 +28,7 @@ class AdsController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $ads = Auth::user()->ads()->orderBy('id', 'DESC');
+        $ads = Ad::orderBy('id', 'DESC');
 
         if ($request->category_id) {
             $ads = $ads->where('category_id', $request->category_id);
@@ -54,7 +54,7 @@ class AdsController extends Controller
      */
     public function store(AdsRequest $request): JsonResponse
     {
-        $ad = Auth::user()->ads()->create($request->all());
+        $ad = Ad::create($request->all());
 
         $ad->tags()->attach($request->tag_id);
 

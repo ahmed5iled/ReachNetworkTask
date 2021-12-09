@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdTagsTable extends Migration
+class CreateAdvertisersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateAdTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ad_tags', function (Blueprint $table) {
+        Schema::create('advertisers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('ad_id');
-            $table->unsignedBigInteger('tag_id');
+            $table->string('name');
+            $table->string('email')->unique();
             $table->timestamps();
-            $table->foreign('ad_id')->references('id')->on('ads')->onDelete('cascade');
-            $table->foreign('tag_id')->references('id')->on('tags')->onDelete('cascade');
+        });
+
+        Schema::table('ads', function (Blueprint $table) {
+            $table->foreign('advertiser_id')->references('id')->on('advertisers')->onDelete('cascade');
         });
     }
 
@@ -30,6 +32,6 @@ class CreateAdTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ad_tags');
+        Schema::dropIfExists('advertisers');
     }
 }

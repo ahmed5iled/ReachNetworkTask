@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Mail\ReminderMail;
 use App\Models\Ad;
+use App\Models\Advertiser;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -41,14 +43,12 @@ class AdvertiserAdsRemiderCommand extends Command
      */
     public function handle()
     {
-        $advertisers = User::whereHas('ads', function ($query) {
-            $query->whereDate('date', '=', Carbon::tomorrow()->format('Y-m-d'));
-        })->get();
+        $ads = Ad::whereDate('start_date', '=', Carbon::tomorrow()->format('Y-m-d'))->get();
 
-        if ($advertisers->count()) {
-            Mail::send('emails.adsReminder', [], function ($message) use ($advertisers) {
-                $message->to($advertisers->pluck('email'));
-            });
+        if ($ads->count()) {
+            foreach ($ads as $ad) {
+                Mail::to($ad->advertiser->email)->send(new ReminderMail($ad));
+            }
         }
 
         return Command::SUCCESS;

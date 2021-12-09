@@ -44,12 +44,6 @@ class User extends Authenticatable implements JWTSubject
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function ads(): HasMany
-    {
-        return $this->hasMany(Ad::class, 'advertiser_id');
-    }
-
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

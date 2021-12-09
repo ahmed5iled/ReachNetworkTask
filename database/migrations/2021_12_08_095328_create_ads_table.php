@@ -21,9 +21,6 @@ class CreateAdsTable extends Migration
             $table->date('start_date');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('advertiser_id');
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('advertiser_id')->references('id')->on('users');
-
             $table->timestamps();
         });
     }

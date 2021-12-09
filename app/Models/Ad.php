@@ -46,6 +46,6 @@ class Ad extends Model
      */
     public function advertiser(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'advertiser_id');
+        return $this->belongsTo(Advertiser::class, 'advertiser_id');
     }
 }

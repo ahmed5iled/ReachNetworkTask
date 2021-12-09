@@ -18,6 +18,9 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+        Schema::table('ads', function (Blueprint $table) {
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+        });
     }
 
     /**

@@ -19,15 +19,9 @@ class ListTagsTest extends TestCase
     {
         $this->actAsAuthorizedUser();
 
-        $tags = Category::factory()->count(5)->create();
-
-        $tags = fractal($tags, new TagsTransformer())->toArray();
-
         $response = $this->json('get', route('tags.index'));
 
         $response->assertStatus(200);
-
-        $this->assertEquals($tags, $response->decodeResponseJson()['item']);
     }
 
     /**
